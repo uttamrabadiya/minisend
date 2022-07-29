@@ -17,7 +17,9 @@
                                    @keyup="searchActivities"
                             >
                             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r-lg focus:outline-none focus:shadow-outline font-normal"
-                                    type="button">
+                                    type="button"
+                                    @click="searchActivities"
+                            >
                                 Search
                             </button>
                         </div>
@@ -137,7 +139,7 @@ export default {
         }
     },
     async created() {
-        await this.loadActivities({search: this.search, page: this.page})
+        await this.loadActivities({search: this.search.trim(), page: this.page})
     },
     computed: {
         ...mapGetters('activities', [
@@ -151,11 +153,13 @@ export default {
         ]),
         searchActivities() {
             this.page = 1;
-            this.loadActivities({search: this.search, page: this.page});
+            if(this.search.trim()) {
+                this.loadActivities({search: this.search.trim(), page: this.page});
+            }
         },
         handlePagination(page) {
             this.page = page;
-            this.loadActivities({search: this.search, page: this.page});
+            this.loadActivities({search: this.search.trim(), page: this.page});
         }
     }
 }
